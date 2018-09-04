@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: os-ironic-state
+  #role_name: os_ironic_state
   author: Mark Goddard
   description: >
     Role to set OpenStack ironic node provision state
