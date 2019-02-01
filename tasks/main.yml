@@ -3,6 +3,7 @@
   os_ironic_state:
     auth_type: "{{ os_ironic_state_auth_type }}"
     auth: "{{ os_ironic_state_auth }}"
+    cacert: "{{ os_ironic_state_cacert | default(omit, true) }}"
     name: "{{ os_ironic_state_name }}"
     provision_state: "{{ os_ironic_state_provision_state }}"
     timeout: "{{ os_ironic_state_timeout }}"
