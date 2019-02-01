@@ -18,6 +18,9 @@ Role Variables
 `os_ironic_state_auth`: Authentication options as used by `os_*` modules'
 `auth` argument.
 
+`os_ironic_state_cacert`: CA certificate as used by `os_*` modules' `cacert`
+argument.
+
 `os_ironic_state_name`: Name of the ironic node.
 
 `os_ironic_state_provision_state`: Desired provision state.

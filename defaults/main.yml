@@ -5,6 +5,9 @@ os_ironic_state_auth_type:
 # Authentication options as used by os_* modules' 'auth' argument.
 os_ironic_state_auth: {}
 
+# CA certificate as used by os_* modules' 'cacert' argument.
+os_ironic_state_cacert:
+
 # Name of the ironic node.
 os_ironic_state_name:
 
