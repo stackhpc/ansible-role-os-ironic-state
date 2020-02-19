@@ -39,7 +39,7 @@ Default is `True`.
 Dependencies
 ------------
 
-The delegate host should have the `openstacksdk`Python  package installed.
+The delegate host should have the `openstacksdk` Python package installed.
 
 Example Playbook
 ----------------
