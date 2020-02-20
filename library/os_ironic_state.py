@@ -71,11 +71,12 @@ os_ironic_node:
 
 from distutils.version import StrictVersion
 
+# Store a list of import errors to report to the user.
+IMPORT_ERRORS = []
 try:
-    import shade
-    HAS_SHADE = True
-except ImportError:
-    HAS_SHADE = False
+    import openstack
+except Exception as e:
+    IMPORT_ERRORS.append(e)
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.openstack import openstack_full_argument_spec, openstack_module_kwargs
@@ -116,13 +117,10 @@ def main():
     )
     module_kwargs = openstack_module_kwargs()
     module = AnsibleModule(argument_spec, **module_kwargs)
-    if not HAS_SHADE:
-        module.fail_json(msg='shade is required for this module')
-
-    if (module.params['wait'] and
-            StrictVersion(shade.__version__) < StrictVersion('1.4.0')):
-        module.fail_json(msg="To utilize wait, the installed version of"
-                             "the shade library MUST be >=1.4.0")
+    # Fail if there were any exceptions when importing modules.
+    if IMPORT_ERRORS:
+        module.fail_json(msg="Import errors: %s" %
+                         ", ".join([repr(e) for e in IMPORT_ERRORS]))
 
     if (module.params['auth_type'] in [None, 'None'] and
             module.params['ironic_url'] is None):
@@ -140,8 +138,9 @@ def main():
     if not node_id:
         module.fail_json(msg="A uuid or name value must be defined "
                              "to use this module.")
+
     try:
-        cloud = shade.operator_cloud(**module.params)
+        sdk, cloud = openstack_cloud_from_module(module)
         node = cloud.get_machine(node_id)
 
         if node is None:
@@ -168,7 +167,7 @@ def main():
 
         module.exit_json(changed=changed)
 
-    except shade.OpenStackCloudException as e:
+    except Exception as e:
         module.fail_json(msg=str(e))
 
 
