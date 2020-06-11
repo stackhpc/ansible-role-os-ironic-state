@@ -78,8 +78,8 @@ try:
 except Exception as e:
     IMPORT_ERRORS.append(e)
 
-from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.openstack import openstack_full_argument_spec, openstack_module_kwargs
+from ansible.module_utils.basic import *
+from ansible.module_utils.openstack import *
 
 
 def _choose_id_value(module):
